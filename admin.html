@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Админ-панель ЧВК "Сармат"</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .admin-container {
+            padding: 20px;
+            background: rgba(10,10,10,0.9);
+        }
+        .application-card {
+            background: rgba(30,30,30,0.7);
+            border-left: 4px solid #ff5555;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        .application-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .status-pending { color: #FFA500; }
+        .status-approved { color: #4CAF50; }
+        .status-rejected { color: #ff5555; }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <h1>Заявки на вступление</h1>
+        <div id="applicationsList"></div>
+    </div>
+    <script src="js/firebase-config.js"></script>
+    <script src="js/admin-panel.js"></script>
+</body>
+</html>

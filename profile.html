@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Досье оперативника | ЧВК "Сармат"</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* Стиль военного досье */
+        .dossier {
+            background: url('images/military-texture.jpg') no-repeat center center;
+            background-size: cover;
+            border: 2px solid #ff5555;
+            padding: 30px;
+            max-width: 700px;
+            margin: 40px auto;
+            position: relative;
+            color: #e0e0e0;
+            box-shadow: 0 0 20px rgba(0,0,0,0.7);
+            font-family: 'Courier New', monospace;
+        }
+
+        .dossier::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(10,10,10,0.8);
+            z-index: -1;
+        }
+
+        .dossier-header {
+            border-bottom: 1px solid #ff5555;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .status-tag {
+            padding: 3px 10px;
+            background: #333;
+            font-weight: bold;
+        }
+
+        .status-pending { color: #FFA500; border: 1px solid #FFA500; }
+        .status-approved { color: #4CAF50; border: 1px solid #4CAF50; }
+        .status-rejected { color: #ff5555; border: 1px solid #ff5555; }
+
+        .dossier-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .dossier-field {
+            margin-bottom: 15px;
+        }
+
+        .dossier-label {
+            color: #ff5555;
+            font-size: 14px;
+            text-transform: uppercase;
+        }
+
+        .classified-stamp {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: #ff5555;
+            font-size: 24px;
+            transform: rotate(15deg);
+            opacity: 0.7;
+        }
+
+        .access-granted {
+            background: rgba(0,100,0,0.3);
+            padding: 20px;
+            border-left: 3px solid #4CAF50;
+            margin-top: 30px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 5px rgba(76, 175, 80, 0); }
+            50% { box-shadow: 0 0 15px rgba(76, 175, 80, 0.5); }
+            100% { box-shadow: 0 0 5px rgba(76, 175, 80, 0); }
+        }
+    </style>
+</head>
+<body class="no-scroll">
+    <div class="grid"></div>
+    <header>
+        <img src="images/logo.png" alt="ЧВК Сармат" class="logo">
+    </header>
+    <nav class="sidebar">
+    <!-- Кнопка профиля вверху -->
+    <div class="profile-btn-container">
+        <button class="profile-btn" onclick="window.location='profile.html'">Досье</button>
+    </div>
+    
+    <!-- Основное меню ниже -->
+    <ul class="main-menu">
+        <li><a href="index.html">Главная</a></li>
+        <li><a href="history.html">История</a></li>
+        <li><a href="gallery.html">Галерея</a></li>
+        <li><a href="join.html">Вступление</a></li>
+        <li><a href="contacts.html">Контакты</a></li>
+    </ul>
+</nav>
+    
+    <main>
+        <div class="dossier">
+            <div class="classified-stamp">СОВЕРШЕННО СЕКРЕТНО</div>
+            
+            <div class="dossier-header">
+                <h1>ДОСЬЕ ОПЕРАТИВНИКА</h1>
+                <div id="status-tag" class="status-tag status-pending">STATUS: PENDING</div>
+            </div>
+
+            <div id="auth-message" style="color: #ff5555; text-align: center; padding: 20px;">
+                Загрузка данных... <div class="loading-animation"></div>
+            </div>
+
+            <div id="profile-content" style="display: none;">
+                <div class="dossier-grid">
+                    <div class="dossier-field">
+                        <div class="dossier-label">Позывной</div>
+                        <div id="agent-callsign" class="dossier-value">[REDACTED]</div>
+                    </div>
+                    <div class="dossier-field">
+                        <div class="dossier-label">Discord ID</div>
+                        <div id="agent-discord" class="dossier-value">[REDACTED]</div>
+                    </div>
+                    <div class="dossier-field">
+                        <div class="dossier-label">Дата регистрации</div>
+                        <div id="agent-regdate" class="dossier-value">[REDACTED]</div>
+                    </div>
+                    <div class="dossier-field">
+                        <div class="dossier-label">Статус</div>
+                        <div id="agent-status" class="dossier-value">[REDACTED]</div>
+                    </div>
+                </div>
+
+                <div id="approved-info" style="display: none;">
+                    <div class="access-granted">
+                        <h3>▶ ДОСТУП РАЗРЕШЕН</h3>
+                        <p>Ваши учетные данные подтверждены. Приступайте к выполнению задания.</p>
+                        <a href="https://discord.gg/ВАША_ССЫЛКА" class="btn-military">Перейти на сервер</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+<div class="profile-container">
+    <!-- Форма входа (для неавторизованных) -->
+    <div id="auth-form" style="display: none;">
+        <h2>Доступ к досье</h2>
+        <input type="email" id="login-email" placeholder="Боевой email">
+        <input type="password" id="login-password" placeholder="Код доступа">
+        <button onclick="login()">Войти</button>
+        <p>Нет аккаунта? <a href="join.html">Подать заявку</a></p>
+    </div>
+
+    <!-- Контент профиля (для авторизованных) -->
+    <div id="profile-content">
+        <!-- Ваш существующий код профиля -->
+    </div>
+</div>
+    <script src="js/firebase-config.js"></script>
+    <script src="js/profile.js"></script>
+</body>
+</html>
+
